@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+	<!base href="http://webapi.amap.com/ui/1.0/ui/misc/PathSimplifier/examples/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">  
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">  
+    <title>高德地图</title>  
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>  
+    <!--script src="http://cache.amap.com/lbs/static/es5.min.js"></script-->  
+     <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&key=9c0f62ad422e3e3adfae4672b538ed16&plugin=AMap.Autocomplete,AMap.Driving,AMap.Geocoder"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>  
+	<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+
+        <script type="text/javascript" src="./qwebchannel.js"></script>
+       
+        <style type="text/css">
+            html {
+                height: 100%;
+                width: 100%;
+            }
+            #input {
+                width: 300px;
+                margin: 0 10px 0 0;
+            }
+            #send {
+                width: 90px;
+                margin: 0;
+            }
+            #output {
+                width: 400px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <textarea id="output"></textarea><br />
+        <input id="input" />
+		<input type="submit" id="send" value="发送文本" onclick="javascript:click();" />
+		<div id="container"></div>
+		
+			<div id="myPageTop">
+		<table>
+        <tr>
+            <td>
+                <label id="rcv1">接收：</label>
+            </td>
+        </tr>
+        <tr>
+            
+            <td class="column2">
+                <input type="text"  id="txbox">
+            </td>
+           <td>
+
+                <button onclick="javascript::click()" id="sendbutton">发送字符串</button>
+            </td>
+
+			<td>
+			<button onclick="showpath()">生成路径</button>
+			</td>
+        </tr>
+		</table>
+	</div>
+		
+		
+		 <script type="text/javascript">
+/*---------------------marker-事件--声明和定义-marker地址全局变量------------------------------------------------------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------*/		 
+var MARKER_CLI=document.createEvent("HTMLEvents");
+MARKER_CLI.initEvent('marker_click',false,false);
+var marker_addr="";
+var marker_longitude=0;
+var marker_latitude=0;
+//var marker_id=0;
+/*---------------------marker-事件--声明和定义---end----------------------------------------------------------------------------------*/	
+/*-------------------------------------------------richard-20171207-----------------------------------------------------------*/	
+
+var map = new AMap.Map("container", {
+					resizeEnable: true,
+					center: [104.07, 30.67],//地图中心点
+					zoom: 13 //地图显示的缩放级别
+					});	
+					 path=new Array();
+    //构造路线导航类
+		
+            // 输出信息
+function output(message)
+            {
+                var output = document.getElementById("output");
+                output.innerHTML = output.innerHTML + message + "\n";
+            }
+			
+function addMarker(i, d,str) {
+        var marker = new AMap.Marker({
+            map: map,
+            position: [ d.location.getLng(),d.location.getLat()]
+        });
+		var lab = document.getElementById("rcv1");
+					lab.innerHTML="marker";
+        var infoWindow = new AMap.InfoWindow({
+            content: d.formattedAddress,
+            offset: {x: 0, y: -30}
+        });
+//----水滴地址鼠标事件-----------------------------------------------------------
+        marker.on("mouseover", function(e) {
+            infoWindow.open(map, marker.getPosition());
+			marker_addr=str;
+			marker_longitude= d.location.getLng();
+			marker_latitude=d.location.getLat();
+			//marker_id=i;
+			document.dispatchEvent(MARKER_CLI);
+        });
+    }
+    //地理编码返回结果展示
+    function geocoder_CallBack(data,str) {
+        var resultStr = "";
+        //地理编码结果数组
+        var geocode = data.geocodes;
+		var lab = document.getElementById("rcv1");
+					lab.innerHTML=geocode.length;
+        for (var i = 0; i < geocode.length; i++) {
+            //拼接输出html
+            resultStr += "<span style=\"font-size: 12px;padding:0px 0 4px 2px; border-bottom:1px solid #C1FFC1;\">" + "<b>地址</b>：" + geocode[i].formattedAddress + "" + "&nbsp;&nbsp;<b>的地理编码结果是:</b><b>&nbsp;&nbsp;&nbsp;&nbsp;坐标</b>：" + geocode[i].location.getLng() + ", " + geocode[i].location.getLat() + "" + "<b>&nbsp;&nbsp;&nbsp;&nbsp;匹配级别</b>：" + geocode[i].level + "</span>";
+            addMarker(i, geocode[i],str);
+			path.push([geocode[i].location.getLng(),geocode[i].location.getLat()]);
+			//path.push(geocode[i].location);
+        }
+        map.setFitView();
+		
+        document.getElementById("result").innerHTML = resultStr;
+    }
+	
+function  showpath(){
+ lineArr =[
+            [100.340417, 27.376994],
+            [113.392174, 31.208439],
+            [124.905846, 42.232876],
+			[108.426354, 37.827452]
+        ];
+	var lab = document.getElementById("rcv1");
+						lab.innerHTML="showpath1";
+    var polyline = new AMap.Polyline({
+       //path: lineArr,          //设置线覆盖物路径
+        strokeColor: "#3366FF", //线颜色
+        strokeOpacity: 1,       //线透明度
+        strokeWeight: 5,        //线宽
+        strokeStyle: "solid",   //线样式
+        strokeDasharray: [10, 5] //补充线样式
+    });
+	var lab = document.getElementById("rcv1");
+						lab.innerHTML="showpath2";
+	//console.log(lineArr);
+	polyline.setPath(path);
+	var lab = document.getElementById("rcv1");
+						lab.innerHTML="showpath3";
+    polyline.setMap(map);
+	var lab = document.getElementById("rcv1");
+						lab.innerHTML="showpath4";
+	console.log(path);
+	var lab = document.getElementById("rcv1");
+						lab.innerHTML="showpath5";
+}				
+		// 启动加载函数 
+/*-------------------------------------------------------------------------------------------------------------*/	
+/*---------------------Qwebchannel------qt后台与js通信相关-------------------------------------------------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------*/		
+            window.onload = function () {
+
+	
+					
+					output("安装 QWebChannel.");
+					new QWebChannel(qt.webChannelTransport, function(channel) {
+                // 获取Qt类交互对象
+					var interactObj = channel.objects.interactObj;
+				// 页面按钮点击事件
+					document.getElementById("sendbutton").onclick = function() {
+                    var lab = document.getElementById("rcv1");
+					lab.innerHTML="click";
+					var txt = document.getElementById("txbox");
+					
+                    if (!txbox.value) {
+                        return;
+                    }
+					// 调用Qt类公有函数
+                    interactObj.recvStringSlot("hello qt from javascript!"+txbox.value);
+                    input.value = "";
+                }
+/*---------------------marker-事件---------------------------------------------------------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------*/			
+					//document.addEventListener("marker_click",function marker_Chandler(){interactObj.recvStringSlot("marker:"+marker_addr+"-"+marker_latitude+"-"+marker_longitude);},false);
+					document.addEventListener("marker_click",function marker_Chandler(){interactObj.recvStringSlot(marker_addr);},false);
+/*-------------------------------------------------------------------------------------------------------------*/
+/*---------------------marker-事件-end--richard-20171207------------------------------------------------------------------------------------*/					
+				// 链接Qt类信号函数
+                interactObj.sendStringSignal.connect(function(str) {
+                    output("Received string: " + str);//接受数据====
+					//------------------这里写处理从qwebchannel qt后台接受的数据、命令-------------------------------------------------
+					var lab = document.getElementById("rcv1");
+					lab.innerHTML="接收："+str;
+					
+					if(str=="cmd:showpath")
+					{
+						var lab = document.getElementById("rcv1");
+						lab.innerHTML="cmd_matched";
+						showpath();
+					}
+					else
+					{
+						var geocoder = new AMap.Geocoder({
+						city: "028", //城市，默认：“全国”
+						radius: 1000 //范围，默认：500
+						});
+						var lab = document.getElementById("rcv1");
+						lab.innerHTML="geocode";
+						
+					geocoder.getLocation(str, function(status, result) {
+					if (status === 'complete' && result.info === 'OK') {
+					var lab = document.getElementById("rcv1");
+					lab.innerHTML=status;
+						geocoder_CallBack(result,str);
+					}}   );	
+					}//else
+	
+					//-----------------------------------接受的数据、命令end--------------------------------------------------------------------------------------------------
+                });
+				// 调用Qt类公有函数
+                interactObj.recvStringSlot("Client connected, 准备发送、接收数据!");//发送数据!!20171127
+            });
+            }
+/*-------------------------------------------------------------------------------------------------------------*/	
+/*---------------------Qwebchannel------qt后台与js通信相关-------end------------------------------------------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------richard------------------20171207-------------------------------------*/	
+/*-------------------------------------------------------------------------------------------------------------*/	
+            //END SETUP
+        </script>
+    </body>
+</html>

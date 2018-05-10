@@ -1,0 +1,233 @@
+﻿<!doctype html>
+<html>
+<head>
+<base href="http://webapi.amap.com/ui/1.0/ui/misc/PathSimplifier/examples/" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>按起终点名称规划路线</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <style type="text/css">
+        #panel {
+            position: fixed;
+            background-color: white;
+            max-height: 90%;
+            overflow-y: auto;
+            top: 10px;
+            right: 10px;
+            width: 280px;
+        }
+
+            html {
+                height: 100%;
+                width: 100%;
+            }
+            #input {
+                width: 300px;
+                margin: 0 10px 0 0;
+            }
+            #send {
+                width: 90px;
+                margin: 0;
+            }
+            #output {
+                width: 400px;
+                height: 300px;
+            }
+
+    </style>
+    
+    <script type="text/javascript" src="./qwebchannel.js"></script>
+
+ <script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.4.1&key=9c0f62ad422e3e3adfae4672b538ed16&plugin=AMap.Autocomplete,AMap.Driving,AMap.Geocoder"></script>
+			 <script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+			  <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+  </head>
+<body>
+<div id="container"></div>
+<div id="panel"></div>
+  <div id="myPageTop">
+    <table>
+        <tr>
+            <td>
+                <label>起点：</label>
+            </td>
+            <td class="column2">
+                <label>终点：</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="请输入关键字进行搜索" id="tipinput">
+            </td>
+            <td class="column2">
+                <input type="text"  id="lnglat">
+            </td>
+           <td>
+                <input type="text" placeholder="请输入第三个地点" id="test">
+            </td>
+			<td>
+			<input type="file" id="input">
+			</td>
+			<td>
+			<button onclick="showpath()">点这里</button>
+			</td>
+        </tr>
+    </table>
+</div>
+<div id="tip">
+    
+    <span id="result"></span>
+</div>
+<script type="text/javascript">
+
+    //---------------------------------------------------------------------------------------------------
+    //-------------qt-与-js-交互部分--------------201712xx-----------------------------------------------
+    //-----------------------------------------------------------------------------------------------
+
+    window.onload = function () {
+        output("安装 QWebChannel.");
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            // 获取Qt类交互对象
+            var interactObj = channel.objects.interactObj;
+            // 页面按钮点击事件
+            document.getElementById("send").onclick = function () {
+                var input = document.getElementById("input");
+                if (!input.value) {
+                    return;
+                }
+                // 调用Qt类公有函数
+                interactObj.recvStringSlot(input.value);
+                input.value = "";
+            }
+            // 链接Qt类信号函数
+            interactObj.sendStringSignal.connect(function (str) {
+                output("Received string: " + str);//接受数据？？20171127
+            });
+            // 调用Qt类公有函数
+            interactObj.recvStringSlot("Client connected, 准备发送、接收数据!");//发送数据!!20171127
+        });
+    }
+    //---------------------------------------------------------------------------------------------------
+    //-------------qt-与-js-交互部分---end--------201712xx-----------------------------------------------
+    //---------------------------------------------------------------------------------------------------
+    //基本地图加载
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        center: [104.07, 30.67],//地图中心点
+        zoom: 13 //地图显示的缩放级别
+    });
+ path=new Array();
+    //构造路线导航类
+    
+   
+		 
+		 
+		 
+		 
+var pos=new Array();
+ var str = `
+金牛立交,成都
+电子科技大学,成都
+西华大学,成都
+`;
+
+ var input = document.querySelector('#input');
+  input.addEventListener('change', function(e){
+    handFile(e.target.files[0]);
+  });
+   console.log(path);
+   
+   
+  function handFile(file){
+    console.log('hand');
+    var reader = new FileReader();
+    reader.onload = function(e){
+    str = e.target.result; 
+	
+	 var geocoder = new AMap.Geocoder({
+            city: "028", //城市，默认：“全国”
+            radius: 1000 //范围，默认：500
+        });
+	
+	str.trim().split('\n').forEach(function(v, i) {
+    var sub=v.split(',');
+    pos[i]={keyword:sub[0],'city':sub[1]};
+    console.log(pos[i]);
+	geocoder.getLocation(sub[0], function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                geocoder_CallBack(result);
+            }
+        });
+}   
+)
+   
+//driving.search(pos);
+    };
+	
+   
+	
+    reader.readAsText(file);
+  }
+;
+ 
+
+
+function addMarker(i, d) {
+        var marker = new AMap.Marker({
+            map: map,
+            position: [ d.location.getLng(),  d.location.getLat()]
+        });
+        var infoWindow = new AMap.InfoWindow({
+            content: d.formattedAddress,
+            offset: {x: 0, y: -30}
+        });
+        marker.on("mouseover", function(e) {
+            infoWindow.open(map, marker.getPosition());
+        });
+    }
+    //地理编码返回结果展示
+    function geocoder_CallBack(data) {
+        var resultStr = "";
+        //地理编码结果数组
+        var geocode = data.geocodes;
+        for (var i = 0; i < geocode.length; i++) {
+            //拼接输出html
+            resultStr += "<span style=\"font-size: 12px;padding:0px 0 4px 2px; border-bottom:1px solid #C1FFC1;\">" + "<b>地址</b>：" + geocode[i].formattedAddress + "" + "&nbsp;&nbsp;<b>的地理编码结果是:</b><b>&nbsp;&nbsp;&nbsp;&nbsp;坐标</b>：" + geocode[i].location.getLng() + ", " + geocode[i].location.getLat() + "" + "<b>&nbsp;&nbsp;&nbsp;&nbsp;匹配级别</b>：" + geocode[i].level + "</span>";
+            addMarker(i, geocode[i]);
+			path.push([geocode[i].location.getLng(),geocode[i].location.getLat()]);
+			//path.push(geocode[i].location);
+        }
+        map.setFitView();
+        document.getElementById("result").innerHTML = resultStr;
+    }
+	
+function  showpath(){
+ lineArr =[
+            [100.340417, 27.376994],
+            [113.392174, 31.208439],
+            [124.905846, 42.232876],
+			[108.426354, 37.827452]
+        ];
+	
+    var polyline = new AMap.Polyline({
+       // path: lineArr,          //设置线覆盖物路径
+        strokeColor: "#3366FF", //线颜色
+        strokeOpacity: 1,       //线透明度
+        strokeWeight: 5,        //线宽
+        strokeStyle: "solid",   //线样式
+        strokeDasharray: [10, 5] //补充线样式
+    });
+	//console.log(lineArr);
+	polyline.setPath(path);
+    polyline.setMap(map);
+	console.log(path);
+}
+
+</script>
+    <textarea id="output"></textarea><br />
+    <input id="input" />
+    <input type="submit" id="send" value="发送文本" onclick="javascript:click();" />
+</body>
+</html>

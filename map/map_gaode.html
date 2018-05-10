@@ -1,0 +1,58 @@
+﻿<!doctype html>  
+<html>  
+<head>  
+    <meta charset="utf-8">  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">  
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">  
+    <title>高德地图</title>  
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>  
+    <!--script src="http://cache.amap.com/lbs/static/es5.min.js"></script-->  
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.1&key=c4e0e5330b23fc5090479440d4be4544"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>  
+</head>  
+<body>  
+
+
+<div id="container"></div>  
+  <table>
+        <tr>
+            <td>
+                <label id="rcv1">接收：</label>
+            </td>
+        </tr>
+        <tr>
+            
+            <td class="column2">
+                <input type="text"  id="lnglat">
+            </td>
+           <td>
+                <button onclick="bclic()" id="sendbutton">发送字符串</button>
+            </td>
+
+			<td>
+			<button onclick="showpath()">生成路径</button>
+			</td>
+        </tr>
+		</table>
+<script>  
+    var map = new AMap.Map('container', {  
+        resizeEnable: true,  
+        zoom:12,  
+        center: [104.06, 30.67]  
+          
+    });  
+      
+  /*  function loadfinishtip() {  
+        alert("amap load finish.");  
+    }  
+      
+    map.on('click', function(e) {  
+        var lng = e.lnglat.getLng();  
+        var lat = e.lnglat.getLat();  
+          
+        Dialog.onMapClicked(lng + "," + lat);    //  
+    });  
+  */
+</script>  
+</body>  
+</html>  

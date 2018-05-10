@@ -1,0 +1,441 @@
+#include "mainwindow.h"
+//-#include "mysql_con.h"
+//#include "correction.h"
+//#include "InteractObject.h"
+int MAP = 0;
+int tp = 0;
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+{
+	this->setWindowTitle("检索控制中心");
+/*菜单栏相关*/
+	m1 =new QMenu("文件");
+	m2 = new QMenu("用户");
+	m3 = new QMenu("检索");
+	m4 = new QMenu("查询");
+	m5 = new QMenu("设置");
+	m6 = new QMenu("帮助");
+	me =new QMenu("关于");
+	mbar =new QMenuBar();
+	mbar->addMenu(m1);
+	m2_1 = new QAction();
+	m2_2 = new QAction();
+	m2_3 = new QAction();
+	m2_1->setText("用户登录");
+	m2_2->setText("用户注销");
+	m2_3->setText("用户管理");
+	m2->addAction(m2_1);
+	m2->addAction(m2_2);
+	m2->addAction(m2_3);
+	mbar->addMenu(m2);
+	mbar->addMenu(m3);
+	mbar->addMenu(m4);
+	mbar->addMenu(m5);
+	mbar->addMenu(m6);
+	mbar->addMenu(me);
+	this->setMenuBar(mbar);
+/*菜单栏相关end*/
+/*状态栏相关*/
+	QWidget *spacer = new QWidget(this);
+	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	t1 = new QTimer();
+	t1->start(500);
+	sbar = new QStatusBar();
+	sbar_l1 = new 	QLabel();
+	sbar_l1->setText("时间");
+	sbar_l2 = new 	QLabel(" 数据库状态：未知");
+	sbar_l3 = new 	QLabel(" 网络状态：未知");
+	sbar_le = new QLabel();
+	sbar_le->setText("开发版本:V0.3.2");
+	sbar->addWidget(sbar_l1, 0);
+	sbar->addWidget(sbar_l2, 0);
+	sbar->addWidget(sbar_l3, 0);
+	sbar->addWidget(spacer, 1);
+	sbar->addWidget(sbar_le, 0);
+	this->setStatusBar(sbar);
+/*状态栏相关end*/
+	Int_Obj=new InteractObject(this);
+//	QGridLayout *ll =new QGridLayout();
+#if (CW==0)
+	cw = new correction(this);
+#elif (CW==1)
+	cw = new correction();
+#endif
+	cw->resize(600, 400);
+	/*cw->setLayout(ll);
+	*/
+	picw = new picshow(this);
+	mydb = new MySql_DB();
+	//picw->show();
+	//-sqpannel = new mysql_pannel(this);
+	centalwidget = new QWidget();
+	mainlayout = new QGridLayout();
+	right_weblayout = new QGridLayout();
+	label1 = new QLabel(tr("标签1_leftlayout"));
+	bottomlayout_button1 = new QPushButton(tr("转到地址："));
+	leftlayout_button1 = new QPushButton(tr("加载高德地图"));
+	bottomlayout_testbutton = new QPushButton("交互测试");
+	lineedit1 = new QLineEdit();
+	bottom_test = new QHBoxLayout();
+	bte1 = new QPushButton(tr("发送字符串到js"));
+	bteline = new QLineEdit();
+	btelb = new QLabel();
+	textbrowswer = new QTextBrowser();
+	bottomlayput = new QHBoxLayout();//底部layout
+	leftlayout = new QVBoxLayout();//左侧layout
+	webview = new QWebEngineView();//右侧web layout
+	imglab_mw = new QLabel();
+	//imglab->installEventFilter(this);
+	//mglab = new Mylabel();
+	//imglab = new ClickedLabel();
+	pimg = new QPixmap();
+	pimg->load("img/img1.jpg");
+	chkbox1 = new QCheckBox();
+	chkbox2 = new QCheckBox();
+	correct_btn = new QPushButton();
+	wrong_btn = new QPushButton();
+	test_mysql_btn = new QPushButton();
+	imgbutton = new QPushButton();
+	//wrong_btn->setIcon(*pimg);
+	//wrong_btn->setIconSize(pimg->size());
+	test_showpath_btn = new QPushButton();
+	
+//-------------------------web-及-webchannel----------------------------------------------------
+
+	webchannel = new QWebChannel();
+	webchannel->registerObject(QStringLiteral("interactObj"), Int_Obj);
+	webview->page()->setWebChannel(webchannel);
+
+	if (MAP == 0)	//加载默认地图
+	{
+		//webview->setUrl(QUrl("file:///map/map_baidu.html"));//使用相对地址
+		//webview->setUrl(QUrl("file:///map/test.html"));//使用相对地址
+		webview->setUrl(QUrl("file:///map/testgod2.html"));//使用相对地址
+		//label1->setText("开发版本：v0.3.2");
+	}
+	else 
+	{
+		webview->setUrl(QUrl("file:///map/map_gaode.html"));//使用相对地址
+		label1->setText("当前使用高德地图");
+	}
+	//webview->setUrl(tr("https://www.baidu.com"));
+
+//-----------------------左侧布局-----------------------------------------------------------
+	label1->setFixedWidth(180);
+	leftlayout_button1->setFixedWidth(180);
+	bteline->setFixedWidth(180);
+	bte1->setFixedWidth(180);
+	btelb->setFixedWidth(180);
+	
+	leftlayout->addWidget(label1);
+	leftlayout->addWidget(leftlayout_button1);
+	//leftlayout->addStretch();
+	leftlayout->addWidget(bteline);
+	leftlayout->addWidget(bte1);
+	leftlayout->addWidget(btelb);
+	//textbrowswer->setFixedWidth(10);
+	textbrowswer->setFixedWidth(180);
+	textbrowswer->setFixedHeight(111);
+	leftlayout->addWidget(textbrowswer);
+	leftlayout->addWidget(imglab_mw);
+
+	//btelb->setPixmap(*pimg);
+	imglab_mw->setPixmap(*pimg);
+	//img = img.scaled(400, 400);
+	imglab_mw->setFixedHeight(270);
+	imglab_mw->setFixedWidth(180);
+	imglab_mw->setScaledContents(true);
+	/*leftlayout->addWidget(imgbutton);
+	imgbutton->setFixedHeight(270);
+	imgbutton->setFixedWidth(180);
+	QSize is(180, 270);
+	imgbutton->setIconSize(is);
+	imgbutton->setIcon(*pimg);*/
+	//chkbox1->setText("正确");
+	//chkbox2->setText("错误");
+	correct_btn->setText("正确");
+	wrong_btn->setText("错误（纠错）");
+	leftlayout->addWidget(correct_btn);
+	leftlayout->addWidget(wrong_btn);
+	//imglab->setPixmap();
+	test_mysql_btn->setText("mysql测试调试面板");
+	leftlayout->addWidget(test_mysql_btn);
+	test_showpath_btn->setText("测试路径显示");
+	leftlayout->addWidget(test_showpath_btn);
+	leftlayout->addStretch();
+	imglab_mw->installEventFilter(this);
+//-----------------------左侧布局-------------------end----------------------------------------
+
+
+//----------------------------右面网页显示的的布局----------------------------------
+	right_weblayout->addWidget(webview, 0, 0);
+//----------------------------右面网页显示的的布局------------end----------------------
+
+//-----------------------底部布局-----------------------------------------------------------
+	bottomlayput->addWidget(bottomlayout_button1);
+	bottomlayput->addWidget(lineedit1);
+	bottomlayput->addStretch();
+	bottomlayput->addWidget(bottomlayout_testbutton);
+//-----------------------底部布局----------end-------------------------------------------------
+
+//-----------------------底部测试布局-----------------------------------------------------------
+	/*bottom_test = new QHBoxLayout();
+	bte1 = new QPushButton(tr("发送字符串到js"));
+	bteline = new QLineEdit();
+	btelb = new QLabel();*/
+	/*bottom_test->addWidget(bteline);
+	bottom_test->addWidget(bte1);
+	bottom_test->addWidget(btelb);*/
+//-----------------------底部测试布局----------end-------------------------------------------------
+
+//-----------------------总体布局-----------------------------------------------------------
+	mainlayout->addLayout(leftlayout, 0, 0);
+	mainlayout->addLayout(right_weblayout, 0, 1);
+	mainlayout->addLayout(bottomlayput,1,0,1,2);
+	//mainlayout->addLayout(bottom_test, 2, 0, 1, 2);
+	centalwidget->setLayout(mainlayout);
+	this->setCentralWidget(centalwidget);
+	//QGridLayout *mainLayout = new QGridLayout(this);
+	//实现主布局，指定父窗口this,也可调用this->setLayout(mainLayout)实现
+//-----------------------总体布局-----------end------------------------------------------------
+
+	
+	//this->setLayout(g1);
+	//setCentralWidget();
+	//mainLayout->setMargin(15);//设定对话框的边距为15
+	//mainLayout->setSpacing(10);
+	//mainLayout->addLayout(g1, 0, 0);
+
+/**************************************************************************************/
+/**************************************************************************************/
+/*--------------------------槽----------------------------------------------------*/
+/**************************************************************************************/
+
+	connect(bottomlayout_button1,SIGNAL(clicked()),this,SLOT(bb1_clicked()));
+	//connect(webview, SIGNAL(urlchanged(QUrl)), this, SLOT(web_url_changed(QUrl)));
+	connect(leftlayout_button1, SIGNAL(clicked()), this, SLOT(lb1_clicked()));
+	connect(webview, SIGNAL(urlChanged(QUrl)), this, SLOT(Web_Jump(QUrl)));
+	//connect(bottomlayout_testbutton, SIGNAL(clicked()), this, SLOT(bbt_clicked()));
+	connect(bte1, SIGNAL(clicked()), this, SLOT(bte_clicked()));
+	connect(correct_btn, SIGNAL(clicked()), this, SLOT(correct_btn_clicked()));
+	connect(wrong_btn, SIGNAL(clicked()), this, SLOT(wrong_btn_clicked()));
+	connect(cw, SIGNAL(cw_but1(const QString &)), this, SLOT(test_wd(const QString &)));
+	//connect(this, SIGNAL(testemit()), this, SLOT(test_wd()));
+	//cw->show();
+	//connect(imglab, SIGNAL(Clicked()), this, SLOT(pic_show()));
+	//connect(cw->imglab, SIGNAL(clicked()), this, SLOT(pic_show()));
+	connect(cw, SIGNAL(picw_show()), this, SLOT(pic_show()));
+	connect(test_mysql_btn, SIGNAL(clicked()), this, SLOT(test_mysql_btn_clicked()));
+	connect(test_showpath_btn, SIGNAL(clicked()), this, SLOT(test_showpath_btn_clicked()));
+	connect(t1, SIGNAL(timeout()), this, SLOT(sta_tl_update()));
+	connect(m2_1, SIGNAL(triggered()), this, SLOT(m2_1_triggered()));
+/*--------------------------槽------------end----------------------------------------*/
+/**************************************************************************************/
+
+}
+
+MainWindow::~MainWindow()
+{
+}
+void MainWindow::bte_clicked()
+{
+	QString text = bteline->text();
+	Int_Obj->sendStringToHtml(text);
+}
+
+void MainWindow::bb1_clicked()
+{
+	//std::cout << "hello world" << std::endl;
+	/*QMessageBox msg;
+	msg.setText();
+	msg.exec();*/
+	//webview->setUrl(lineedit1->text());
+	//webview->urlChanged(lineedit1->text());
+	//webview->load(QUrl(lineedit1->text()));
+	right_weblayout->removeWidget(webview);
+	webview->deleteLater();
+	webview = new QWebEngineView();
+	right_weblayout->addWidget(webview);
+	webview->setUrl(lineedit1->text());
+	webview->show();
+	//webview->reload();
+	//var map = new AMap.Map('container', { pitch:75, viewMode : '3D', zoom : 17, expandZoomRange : true, zooms : [3,20], center : [116.333926,39.997245] });
+}
+void MainWindow::lb1_clicked()
+{
+	QString url;
+	if (MAP==0)
+	{
+		url = "file:///map/map_gaode.html";
+		label1->setText("当前使用高德地图");
+		leftlayout_button1->setText("加载百度地图");
+		MAP = 1;
+
+	}
+	else 
+	{
+		url = "file:///map/map_baidu.html";
+		leftlayout_button1->setText("加载高德地图");
+		label1->setText("当前使用百度地图");
+		MAP = 0;
+	}
+
+	right_weblayout->removeWidget(webview);
+	webview->deleteLater();
+	webview = new QWebEngineView();
+	right_weblayout->addWidget(webview);
+	webview->setUrl(QUrl(url));
+	label1->setText(url);
+	webview->show();
+}
+void MainWindow::Web_Jump(const QUrl &url)
+{
+	/*QMessageBox msg;
+	msg.setText(url.toString());
+	msg.exec();*/
+}
+void MainWindow::bbt_clicked()
+{
+	emit testemit();
+	QMessageBox msg;
+	msg.setText("emit");
+	msg.exec();
+
+		QString fileName = QFileDialog::getOpenFileName(this,
+			tr("Open Spreadsheet"), ".",
+			tr("Spreadsheet files (*.sp)"));
+
+	//webview->page()->runJavaScript("showAlert()");
+	//var map = new AMap.Map('container', { pitch:75, viewMode : '3D', zoom : 17, expandZoomRange : true, zooms : [3,20], center : [116.333926,39.997245] });
+	//QWebFrame *webFrame = ui->webView->page()->mainFrame();
+	//QString cmd = QString("showAddress(\"%1\",\"%2\")").arg(lon).arg(lat);
+	//webFrame->evaluateJavaScript(cmd);
+	/*QString url;
+		url = "file:///map/test.html";
+		label1->setText("当前使用测试页面");
+		leftlayout_button1->setText("加载百度地图");
+		MAP = 1;
+
+	right_weblayout->removeWidget(webview);
+	webview->deleteLater();
+	webview = new QWebEngineView();
+	webchannel = new QWebChannel();
+	webchannel->registerObject(QStringLiteral("interactObj"), Int_Obj);
+	webview->page()->setWebChannel(webchannel);
+
+	right_weblayout->addWidget(webview);
+	webview->setUrl(QUrl(url));
+	label1->setText(url);
+	webview->show();
+	*/
+}
+void MainWindow::btelb_text(const QString &text)
+{
+	//btelb->setText(text);
+	textbrowswer->setText(text);
+	int i = 0;
+	for (auto a : loca)
+	{
+		if (0 == QString::compare(a, text))//字符串相同
+		{
+			pimg->load(picpath[i]); cw->pimg_load(picpath[i]); picw->picw_load(picpath[i]);
+			textbrowswer->append(aptime[i]);
+			break;
+		}
+		i++;
+	}
+	/*switch ((tp++) % 4)
+	{
+	case 0:	pimg->load("img/img1.jpg"); cw->pimg_load("img/img1.jpg"); picw->picw_load("img/img1.jpg"); break;
+	case 1:	pimg->load("img/img2.jpg"); cw->pimg_load("img/img2.jpg"); picw->picw_load("img/img2.jpg"); break;
+	case 2:	pimg->load("img/img3.jpg"); cw->pimg_load("img/img3.jpg"); picw->picw_load("img/img3.jpg"); break;
+	case 3:	pimg->load("img/img4.jpg"); cw->pimg_load("img/img4.jpg"); picw->picw_load("img/img4.jpg"); break;
+	}*/
+
+	imglab_mw->setPixmap(*pimg);
+}
+void MainWindow::correct_btn_clicked()
+{
+	/*QMessageBox msg;
+	msg.setText(mysql);
+	msg.exec();
+	//mysql_test();*/
+}
+void MainWindow::wrong_btn_clicked()
+{
+	/*QMessageBox msg;
+	msg.setText("纠错");
+	msg.exec();*/
+	//correction *w1 = new correction(this);
+	//w1->show();
+	//cw = new correction(this);
+	//cw->pimg->load("img/img3.jpg");
+	cw->show();//????
+	//w1.show();
+	/*QWidget *window = new QWidget(this);
+	window->resize(300, 200);
+	//window->show();
+	window->show();*/
+	//msg.exec();
+	//w1->exec();
+}
+void MainWindow::test_wd(const QString &text)
+{
+	
+	textbrowswer->setText(text);
+	QMessageBox msg;
+	msg.setText("testbutton_emit_work");
+	msg.exec();
+}
+void MainWindow::pic_show()
+{
+	picw->show();
+}
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+	if (obj == imglab_mw)
+	{
+		
+		if(event->type()==QEvent::MouseButtonPress)
+		{
+			/*QMessageBox::information(NULL, "点击", "点击了我",
+				QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+			*/
+			pic_show();
+			return true;
+		}else return false;
+	}
+	else
+	{
+		return QMainWindow::eventFilter(obj, event);
+	}
+	//return false;
+}
+void MainWindow::test_mysql_btn_clicked()
+{
+	//-sqpannel->show();
+}
+void MainWindow::test_showpath_btn_clicked()
+{
+	picpath = mydb->read_resultPICPATH_bypicid(1182);
+	loca = mydb->read_resultLOCATION_bypicid(1182);
+	aptime = mydb->read_resultAPTIME_bypicid(1182);
+	for (int i = 0;i < loca.size();i++)
+	{
+		Int_Obj->sendStringToHtml(loca[i]);
+		textbrowswer->append("loc:" + loca[i] + " aptime:" + aptime[i] + "picpath:" + picpath[i]);
+	}
+	//Int_Obj->sendStringToHtml("cmd:showpath");
+}
+void MainWindow::sta_tl_update()
+{
+	QDateTime tmp = QDateTime::currentDateTime();
+	QString tmp1 = tmp.toString("yyyy年M月d日 ddd hh:mm:ss");
+	sbar_l1->setText(tmp1);
+}
+void MainWindow::m2_1_triggered()
+{
+	msg.setText("登录功能");
+	msg.exec();
+}

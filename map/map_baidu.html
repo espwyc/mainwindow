@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>  
+<html>  
+<head>  
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+<title>Hello, World</title>  
+<style type="text/css">  
+html{height:100%}  
+body{height:100%;margin:0px;padding:0px}  
+#container{height:100%}  
+</style>  
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=E87289fceef21c7faa4e0e731b3765d5">
+//v1.5版本的引用方式：src="http://api.map.baidu.com/api?v=1.5&ak=E87289fceef21c7faa4e0e731b3765d5"
+//v1.4版本及以前版本的引用方式：src="http://api.map.baidu.com/api?v=1.4&key=E87289fceef21c7faa4e0e731b3765d5&callback=initialize"
+</script>
+</head>  
+ 
+<body>  
+<div id="container"></div> 
+<script type="text/javascript"> 
+var map = new BMap.Map("container");          // 创建地图实例  
+var point = new BMap.Point(104.06, 30.67);  // 创建点坐标  
+map.centerAndZoom(point, 13);                 // 初始化地图，设置中心点坐标和地图级别  
+
+ //初始化地图，centerAndZoom第一个参数为Point时，第二个参数的范围是3-19；对于移动端，centerAndZoom第一个参数为Point时，第二个参数的范围是3-18  
+//map.centerAndZoom(new BMap.Point(30.67, 104.06),50);  
+//将控件添加到地图，一个控件实例只能向地图中添加一次  
+//map.addControl(new BMap.MapTypeControl());  
+//设置地图显示的城市，默认为成都 
+map.setCurrentCity("成都");  
+//开启鼠标滚轮缩放  
+   map.enableScrollWheelZoom(true);  
+</script>  
+</body>  
+</html>
