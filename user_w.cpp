@@ -15,6 +15,13 @@ user_w::user_w(MySql_DB *DB,QWidget *parent)
 	PassWordL->setAlignment(Qt::AlignRight);
 	PassWordL->setFixedWidth(100);
 	UserNameE = new QLineEdit();
+	/*UserNameE->setStyleSheet(
+	"QLineEdit{"
+	"background: transparent;"
+	"border: 1px solid transparent;"
+	"color: #546E7A;"
+	"}"
+		);*/
 	UserNameE->setFixedWidth(150);
 	UserNameE->setText("admin");
 	PassWordE=new QLineEdit();
@@ -24,9 +31,44 @@ user_w::user_w(MySql_DB *DB,QWidget *parent)
 	ConfirmButton = new QPushButton();
 	ConfirmButton->setFixedWidth(150);
 	ConfirmButton->setText("登陆");
+	//ConfirmButton->setStyleSheet(
+	//	"QPushButton{"
+	//	"color: #eff0f1;"
+	//	"background - color: #31363b;"
+	//	"border - width: 1px;"
+	//	"border - color: #76797C;"
+	//	"border - style: solid;"
+	//	"padding: 5px;"
+	//	"border - radius: 2px;"
+	//	"outline: none;"
+	//	"}"
+
+
+	//	"QPushButton:pressed{"
+	//	"background - color: #3daee9;"
+	//	"padding - top: -15px;"
+	//	"padding - bottom: -17px;"
+	//	"}"
+	//	);
 	CancelButton = new QPushButton();
 	CancelButton->setFixedWidth(150);
 	CancelButton->setText("取消");
+	//CancelButton->setStyleSheet(
+	//	"QPushButton{"
+	//	"background - color: transparent;"
+	//	"color: #546E7A;"
+	//	"border: 1px solid transparent;"
+	//	"padding: 4px 22px;"
+	//	"}"
+
+	//	"QPushButton:hover{"
+	//	"color: #AFBDC4;"
+	//	"}"
+
+	//	"QPushButton:pressed{"
+	//	"color: #FFFFFF;"
+	//	"}"
+	//	);
 /*布局*/
 	mainlayout = new QGridLayout();
 	mainlayout->addWidget(UserNameL, 0, 0, 1, 1);

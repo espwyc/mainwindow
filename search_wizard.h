@@ -62,8 +62,10 @@ public:
 	page_2(MySql_DB *DB,search_wizard *f_p, QWizard * parent=0);
 	~page_2();
 	QMessageBox msg;
+	struct QuerryStruct qs;
 private:
 	std::vector<std::string> ips;
+	QWizard *PW;
 	//search_wizard *f_w;
 	//search_wizard *f_p;
 	/*QAbstractButton *bt;
@@ -110,12 +112,15 @@ private:
 	QDate bcdate = QDate::currentDate();//qtbug²¹¾È
 signals:
 	void SubmitQuerry(struct QuerryStruct &QS);
+	void PicSelected();
+	void PicUnSelected();
 private slots :
 	void cancel_btn_clicked();
 	void confirm_btn_clicked();
 	void sel_pic_clicked();
 	void b_date_check(const QDate &date);
 	void update_status();
+	void SBQTWiardButtonClicked();
 public slots :
 		void treeItemChanged(/*QTreeWidgetItem* item, int column*/);
 };
@@ -160,6 +165,10 @@ private:
 	page_2 *p2;
 	page_3 *p3;
 private slots:
+	void  SBQT();
+	void  SBQTS();
+	void SBQTpicselected();
+	void SBQTpicunselected();
 signals:
 		   void SubmitQuerry(struct QuerryStruct &QS);
 };

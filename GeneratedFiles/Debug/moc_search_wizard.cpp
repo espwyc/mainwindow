@@ -157,8 +157,8 @@ void page_1::TreeUpdateFinished()
     QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }
 struct qt_meta_stringdata_page_2_t {
-    QByteArrayData data[12];
-    char stringdata0[141];
+    QByteArrayData data[15];
+    char stringdata0[190];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -172,19 +172,24 @@ QT_MOC_LITERAL(1, 7, 12), // "SubmitQuerry"
 QT_MOC_LITERAL(2, 20, 0), // ""
 QT_MOC_LITERAL(3, 21, 13), // "QuerryStruct&"
 QT_MOC_LITERAL(4, 35, 2), // "QS"
-QT_MOC_LITERAL(5, 38, 18), // "cancel_btn_clicked"
-QT_MOC_LITERAL(6, 57, 19), // "confirm_btn_clicked"
-QT_MOC_LITERAL(7, 77, 15), // "sel_pic_clicked"
-QT_MOC_LITERAL(8, 93, 12), // "b_date_check"
-QT_MOC_LITERAL(9, 106, 4), // "date"
-QT_MOC_LITERAL(10, 111, 13), // "update_status"
-QT_MOC_LITERAL(11, 125, 15) // "treeItemChanged"
+QT_MOC_LITERAL(5, 38, 11), // "PicSelected"
+QT_MOC_LITERAL(6, 50, 13), // "PicUnSelected"
+QT_MOC_LITERAL(7, 64, 18), // "cancel_btn_clicked"
+QT_MOC_LITERAL(8, 83, 19), // "confirm_btn_clicked"
+QT_MOC_LITERAL(9, 103, 15), // "sel_pic_clicked"
+QT_MOC_LITERAL(10, 119, 12), // "b_date_check"
+QT_MOC_LITERAL(11, 132, 4), // "date"
+QT_MOC_LITERAL(12, 137, 13), // "update_status"
+QT_MOC_LITERAL(13, 151, 22), // "SBQTWiardButtonClicked"
+QT_MOC_LITERAL(14, 174, 15) // "treeItemChanged"
 
     },
     "page_2\0SubmitQuerry\0\0QuerryStruct&\0"
-    "QS\0cancel_btn_clicked\0confirm_btn_clicked\0"
+    "QS\0PicSelected\0PicUnSelected\0"
+    "cancel_btn_clicked\0confirm_btn_clicked\0"
     "sel_pic_clicked\0b_date_check\0date\0"
-    "update_status\0treeItemChanged"
+    "update_status\0SBQTWiardButtonClicked\0"
+    "treeItemChanged"
 };
 #undef QT_MOC_LITERAL
 
@@ -194,32 +199,38 @@ static const uint qt_meta_data_page_2[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    2, 0x06 /* Public */,
+       1,    1,   64,    2, 0x06 /* Public */,
+       5,    0,   67,    2, 0x06 /* Public */,
+       6,    0,   68,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   52,    2, 0x08 /* Private */,
-       6,    0,   53,    2, 0x08 /* Private */,
-       7,    0,   54,    2, 0x08 /* Private */,
-       8,    1,   55,    2, 0x08 /* Private */,
-      10,    0,   58,    2, 0x08 /* Private */,
-      11,    0,   59,    2, 0x0a /* Public */,
+       7,    0,   69,    2, 0x08 /* Private */,
+       8,    0,   70,    2, 0x08 /* Private */,
+       9,    0,   71,    2, 0x08 /* Private */,
+      10,    1,   72,    2, 0x08 /* Private */,
+      12,    0,   75,    2, 0x08 /* Private */,
+      13,    0,   76,    2, 0x08 /* Private */,
+      14,    0,   77,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void,
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QDate,    9,
+    QMetaType::Void, QMetaType::QDate,   11,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -233,12 +244,15 @@ void page_2::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->SubmitQuerry((*reinterpret_cast< QuerryStruct(*)>(_a[1]))); break;
-        case 1: _t->cancel_btn_clicked(); break;
-        case 2: _t->confirm_btn_clicked(); break;
-        case 3: _t->sel_pic_clicked(); break;
-        case 4: _t->b_date_check((*reinterpret_cast< const QDate(*)>(_a[1]))); break;
-        case 5: _t->update_status(); break;
-        case 6: _t->treeItemChanged(); break;
+        case 1: _t->PicSelected(); break;
+        case 2: _t->PicUnSelected(); break;
+        case 3: _t->cancel_btn_clicked(); break;
+        case 4: _t->confirm_btn_clicked(); break;
+        case 5: _t->sel_pic_clicked(); break;
+        case 6: _t->b_date_check((*reinterpret_cast< const QDate(*)>(_a[1]))); break;
+        case 7: _t->update_status(); break;
+        case 8: _t->SBQTWiardButtonClicked(); break;
+        case 9: _t->treeItemChanged(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -248,6 +262,20 @@ void page_2::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             typedef void (page_2::*_t)(QuerryStruct & );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&page_2::SubmitQuerry)) {
                 *result = 0;
+                return;
+            }
+        }
+        {
+            typedef void (page_2::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&page_2::PicSelected)) {
+                *result = 1;
+                return;
+            }
+        }
+        {
+            typedef void (page_2::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&page_2::PicUnSelected)) {
+                *result = 2;
                 return;
             }
         }
@@ -279,13 +307,13 @@ int page_2::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 10)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 10;
     }
     return _id;
 }
@@ -295,6 +323,18 @@ void page_2::SubmitQuerry(QuerryStruct & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void page_2::PicSelected()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+}
+
+// SIGNAL 2
+void page_2::PicUnSelected()
+{
+    QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }
 struct qt_meta_stringdata_page_3_t {
     QByteArrayData data[7];
@@ -418,8 +458,8 @@ void page_3::SubmitQuerry(QuerryStruct & _t1)
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 struct qt_meta_stringdata_search_wizard_t {
-    QByteArrayData data[5];
-    char stringdata0[45];
+    QByteArrayData data[9];
+    char stringdata0[90];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -432,11 +472,16 @@ QT_MOC_LITERAL(0, 0, 13), // "search_wizard"
 QT_MOC_LITERAL(1, 14, 12), // "SubmitQuerry"
 QT_MOC_LITERAL(2, 27, 0), // ""
 QT_MOC_LITERAL(3, 28, 13), // "QuerryStruct&"
-QT_MOC_LITERAL(4, 42, 2) // "QS"
+QT_MOC_LITERAL(4, 42, 2), // "QS"
+QT_MOC_LITERAL(5, 45, 4), // "SBQT"
+QT_MOC_LITERAL(6, 50, 5), // "SBQTS"
+QT_MOC_LITERAL(7, 56, 15), // "SBQTpicselected"
+QT_MOC_LITERAL(8, 72, 17) // "SBQTpicunselected"
 
     },
     "search_wizard\0SubmitQuerry\0\0QuerryStruct&\0"
-    "QS"
+    "QS\0SBQT\0SBQTS\0SBQTpicselected\0"
+    "SBQTpicunselected"
 };
 #undef QT_MOC_LITERAL
 
@@ -446,7 +491,7 @@ static const uint qt_meta_data_search_wizard[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -454,10 +499,22 @@ static const uint qt_meta_data_search_wizard[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   19,    2, 0x06 /* Public */,
+       1,    1,   39,    2, 0x06 /* Public */,
+
+ // slots: name, argc, parameters, tag, flags
+       5,    0,   42,    2, 0x08 /* Private */,
+       6,    0,   43,    2, 0x08 /* Private */,
+       7,    0,   44,    2, 0x08 /* Private */,
+       8,    0,   45,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
+
+ // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -469,6 +526,10 @@ void search_wizard::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->SubmitQuerry((*reinterpret_cast< QuerryStruct(*)>(_a[1]))); break;
+        case 1: _t->SBQT(); break;
+        case 2: _t->SBQTS(); break;
+        case 3: _t->SBQTpicselected(); break;
+        case 4: _t->SBQTpicunselected(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -509,13 +570,13 @@ int search_wizard::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 1;
+        _id -= 5;
     }
     return _id;
 }

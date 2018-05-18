@@ -212,7 +212,7 @@ MainWindow::MainWindow(QWidget *parent)
 	imglab_mw = new QLabel();
 
 	pimg = new QPixmap();
-	pimg->load("img/img1.jpg");
+	pimg->load("cover/cover.jpg");
 	chkbox1 = new QCheckBox();
 	chkbox2 = new QCheckBox();
 	//correct_btn = new QPushButton();

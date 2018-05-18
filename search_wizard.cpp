@@ -255,13 +255,19 @@ page_1::~page_1()
 
 page_2::page_2(MySql_DB *DB,search_wizard *f_p,QWizard * parent) :QWizardPage(parent)
 {
+	//button()
+	//QWizard::NextButton
+	//this->wizard()->button(QWizard::NextButton)->setEnabled(false);
+	//parent->button(QWizard::NextButton)->setEnabled(false);
+	//PW = parent;
 	base = DB;
 	/*setTitle(tr("Evaluate <i>Super Product One</i>&trade;"));
 	setSubTitle(tr("Please fill both fields. Make sure to provide a valid "
 		"email address (e.g., john.smith@example.com)."));*/
 	this->setTitle("检索向导");
 	this->setSubTitle("选择目标照片和检索条件");
-
+	setButtonText(QWizard::NextButton, "确定检索");
+	//connect(, SIGNAL(clicked()), this, SLOT(SBQTWiardButtonClicked()));
 	//nameLabel = new QLabel(tr("N&ame:"));
 	//nameLineEdit = new QLineEdit;
 	//! [20]
@@ -312,7 +318,7 @@ page_2::page_2(MySql_DB *DB,search_wizard *f_p,QWizard * parent) :QWizardPage(pa
 	//imglab_sw->setFixedSize(600, 370);
 	//imglab->setSizePolicy(GrowFlag);
 	imglab_sw->setScaledContents(true);
-	pimg->load("img/img1.jpg");
+	pimg->load("cover/cover.jpg");
 
 	imglab_sw->setPixmap(*pimg);
 #ifdef SSMSG
@@ -342,6 +348,7 @@ page_2::page_2(MySql_DB *DB,search_wizard *f_p,QWizard * parent) :QWizardPage(pa
 	e_group->setTitle("终止日期");
 	b_group->setLayout(b_layout);
 	b_group->setTitle("起始日期");
+
 	//e_date->setFixedWidth(200);
 	//el1->setFixedWidth(200);
 	//el2->setFixedWidth(200);
@@ -368,7 +375,7 @@ page_2::page_2(MySql_DB *DB,search_wizard *f_p,QWizard * parent) :QWizardPage(pa
 	bottom_layout->addWidget(sel_pic_btn);
 	bottom_layout->addWidget(fi_l);
 	bottom_layout->addStretch();
-	bottom_layout->addWidget(confirm_btn);
+	//bottom_layout->addWidget(confirm_btn);
 	//bottom_layout->addWidget(cancel_btn);
 	mainlayout->addLayout(rightlayout,0,0,1,1);
 	mainlayout->addLayout(bottom_layout,1,0,1,1);
@@ -495,15 +502,28 @@ void page_2::confirm_btn_clicked()
 }
 void page_2::sel_pic_clicked()
 {
+	//imgname = NULL;
 	*imgname = QFileDialog::getOpenFileName(this, tr("打开图片"), ".", tr("图片文件 (*.jpg)"));
 	//pimg->load(fileName);
-	if (imgname == NULL)
+#ifdef SSMSG
+	QMessageBox m1;
+	m1.setText(*imgname);
+	m1.exec();
+#endif
+
+	if (*imgname == "")
 	{
-		fi_l->show();
+		//PW->button(QWizard::NextButton)->setEnabled(false);
+		//fi_l->show();
+		emit PicUnSelected();
+		pimg->load("cover/cover.jpg");
+		imglab_sw->setPixmap(*pimg);
 		return;
 	}
 	else
 	{
+		emit PicSelected();
+		//PW->button(QWizard::NextButton)->setEnabled(true);
 		//QFile::copy("img/img1.jpg","img/imgt.jpg");
 		QDateTime t = QDateTime::currentDateTime();
 		//QString ts = t.toString("yyyy-MM-dd hh:mm:ss");
@@ -519,6 +539,47 @@ void page_2::sel_pic_clicked()
 		pimg->load(*imgname);
 		imglab_sw->setPixmap(*pimg);
 		
+		QDate edt;
+		edt = e_date->date();
+		QDate bdt = b_date->date();
+		QTime et = e_time->time();
+		QTime bt = b_time->time();
+		//QMessageBox msg1;
+		//auto ret = msg1.information(NULL, "确定检索",
+		//	/**/	"用户提交检索信息:\n照片：" + *imgname + "\n从" + bdt.toString() + "\n到" + edt.toString(),/**/
+		//	/**/	QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);/**/
+		//																  //msg.setText("");
+		//																  //msg.exec();
+		//if (ret == QMessageBox::Yes)
+		{
+			/*提交检索信息*/
+			/*QMessageBox msg;
+			msg.setText("yes");
+			msg.exec();*/
+			//MySql_DB m;
+			//int x = m.save_pic(PICLIBPATH + *pic_name);/*获取主键*/
+			//m.save_querry(x, PICLIBPATH + *pic_name, bdt, bt, edt, et);
+			/*提交给通信模块客户端*/
+			//struct QuerryStruct s;
+			qs.ipArr = ips;
+			//qs.pic_id = x;//pid
+						 //s.pic_path = CQPATH+ PICLIBPATH + *pic_name;//picpath提交绝对路径
+			qs.pic_path = PICLIBPATH + *pic_name;//picpath提交相对路径
+			qs.e_t.setDate(edt);
+			qs.e_t.setTime(et);
+			qs.b_t.setDate(bdt);
+			qs.b_t.setTime(bt);//et&bt
+			qs.errorcode = "0";
+			//
+			//s.zipcode=
+			emit SubmitQuerry(qs);
+			/*提交给通信模块客户端end*/
+		}
+		/*else if (ret == QMessageBox::No)
+		{
+
+		}*/
+
 	}
 }
 void page_2::b_date_check(const QDate &date)
@@ -554,6 +615,12 @@ void page_2::b_date_check(const QDate &date)
 		//bcdate = QDate::currentDate();不用管
 		return;
 	}
+}
+void page_2::SBQTWiardButtonClicked()
+{
+	QMessageBox m1;
+	m1.setText("sbqt");
+	m1.exec();
 }
 //void page_2::confirm_btn_clicked()
 //{
@@ -636,9 +703,11 @@ page_3::page_3(QWizard * parent) :QWizardPage(parent)
 	layout = new QVBoxLayout();
 	layout->addWidget(label);
 	layout->addWidget(txtb);
-	layout->addWidget(confirm_button);
+	//layout->addWidget(confirm_button);
 	this->setLayout(layout);
 	connect(confirm_button, SIGNAL(clicked()), this, SLOT(confirm_button_clicked()));
+
+	setButtonText(QWizard::FinishButton, "提交命令");
 }
 void page_3::RcvQuerry(struct QuerryStruct &QS)
 {
@@ -663,7 +732,7 @@ void page_3::confirm_button_clicked()
 	msg.exec();
 #endif
 	emit SubmitQuerry(qs);
-	this->close();
+	//this->close();
 	//this->hide();
 	//parent->hide();
 }
@@ -687,15 +756,59 @@ search_wizard::search_wizard(MySql_DB *DB,QWidget *parent)
 	this->addPage(p3);
 	this->setWindowTitle("检索向导");
 	this->resize(1000,618);
+	connect(button(QWizard::NextButton), SIGNAL(clicked()), this, SLOT(SBQT()));
+	connect(button(QWizard::FinishButton), SIGNAL(clicked()), this, SLOT(SBQTS()));
 	//connect(p1, SIGNAL(tree_item_changed(QTreeWidgetItem*, int)), p2, SLOT(treeItemChanged(QTreeWidgetItem*, int)));
 	connect(p1, SIGNAL(TreeUpdateFinished()), p2, SLOT(treeItemChanged(/*QTreeWidgetItem*, int*/)));
 	connect(p2, SIGNAL(SubmitQuerry(struct QuerryStruct &)), p3, SLOT(RcvQuerry(struct QuerryStruct &)));
+	connect(p2, SIGNAL(PicSelected()), this, SLOT(SBQTpicselected()));
+	connect(p2, SIGNAL(PicUnSelected()), this, SLOT(SBQTpicunselected()));
 	connect(p3, SIGNAL(SubmitQuerry(struct QuerryStruct &)), this, SIGNAL(SubmitQuerry(struct QuerryStruct &)));
 }
 //void search_wizard::showfp()
 //{
 //	//p1->show();
 //}
+void search_wizard::SBQTpicunselected()
+{
+	this->button(QWizard::NextButton)->setEnabled(false);
+}
+void search_wizard::SBQTpicselected()
+{
+	this->button(QWizard::NextButton)->setEnabled(true);
+}
+void search_wizard::SBQTS()
+{
+	emit SubmitQuerry(p2->qs);
+}
+void search_wizard::SBQT()
+{
+#ifdef SSMSG
+	QMessageBox m1;
+	QString s = QString::number(this->currentId());
+	m1.setText("SBQT" + s);
+	m1.exec();
+#endif
+	if (this->currentId() == 1)
+	{
+		this->button(QWizard::NextButton)->setEnabled(false);
+	}
+	if (this->currentId ()== 2)
+	{
+		/*提交检索信息*/
+#ifdef SSMSG
+		QMessageBox msg;
+		msg.setText("qs");
+		msg.exec();
+#endif
+		//MySql_DB m;
+
+		int x = base->save_pic(p2->qs.pic_path);/*获取主键*/
+		p2->qs.pic_id = x;
+		//base->save_querry(x, PICLIBPATH + *pic_name, bdt, bt, edt, et);
+	}
+
+}
 search_wizard::~search_wizard()
 {
 
