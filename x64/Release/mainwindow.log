@@ -1,5 +1,5 @@
-﻿生成启动时间为 2018/4/21 16:49:36。
-     1>项目“D:\test\mainwindow2r\mainwindow.vcxproj”在节点 2 上(Rebuild 个目标)。
+﻿生成启动时间为 2018/5/18 10:42:07。
+     1>项目“D:\test\mainwindow2r\mainwindow2r\mainwindow.vcxproj”在节点 2 上(Build 个目标)。
      1>CustomBuild:
          Moc'ing mainwindow.h...
          Generate moc_predefs.h
@@ -27,8 +27,8 @@
          - add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.
          Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
      1>client.cpp(149): warning C4267: “参数”: 从“size_t”转换到“char”，可能丢失数据
-     1>client.cpp(284): warning C4100: “ec”: 未引用的形参
-     1>client.cpp(287): warning C4100: “t_ec”: 未引用的形参
+     1>client.cpp(286): warning C4100: “ec”: 未引用的形参
+     1>client.cpp(289): warning C4100: “t_ec”: 未引用的形参
          con2thread.cpp
          correction.cpp
          moc_client.cpp
@@ -61,8 +61,8 @@
          InteractObject.cpp
          main.cpp
          mainwindow.cpp
-     1>mainwindow.cpp(453): warning C4100: “url”: 未引用的形参
-     1>mainwindow.cpp(599): warning C4100: “text”: 未引用的形参
+     1>mainwindow.cpp(459): warning C4100: “url”: 未引用的形参
+     1>mainwindow.cpp(605): warning C4100: “text”: 未引用的形参
          mysql_con.cpp
          mysql_pannel.cpp
          network_pannel.cpp
@@ -70,20 +70,18 @@
          - add -D_WIN32_WINNT=0x0501 to the compiler command line; or
          - add _WIN32_WINNT=0x0501 to your project's Preprocessor Definitions.
          Assuming _WIN32_WINNT=0x0501 (i.e. Windows XP target).
-     1>network_pannel.cpp(125): warning C4100: “text”: 未引用的形参
-     1>network_pannel.cpp(260): warning C4100: “rcv_ip”: 未引用的形参
+     1>network_pannel.cpp(126): warning C4100: “text”: 未引用的形参
+     1>network_pannel.cpp(264): warning C4100: “rcv_ip”: 未引用的形参
          picshow.cpp
          result_window.cpp
-     1>result_window.cpp(121): warning C4100: “i”: 未引用的形参
+     1>result_window.cpp(122): warning C4100: “i”: 未引用的形参
          search_w.cpp
          search_wizard.cpp
-     1>search_wizard.cpp(103): warning C4101: “level4”: 未引用的局部变量
-     1>search_wizard.cpp(173): warning C4100: “column”: 未引用的形参
-     1>search_wizard.cpp(183): warning C4189: “parent”: 局部变量已初始化但不引用
+     1>search_wizard.cpp(102): warning C4101: “level4”: 未引用的局部变量
+     1>search_wizard.cpp(172): warning C4100: “column”: 未引用的形参
+     1>search_wizard.cpp(182): warning C4189: “parent”: 局部变量已初始化但不引用
          settings.cpp
          status_w.cpp
-     1>status_w.cpp(209): warning C4100: “column”: 未引用的形参
-     1>status_w.cpp(226): warning C4189: “parent”: 局部变量已初始化但不引用
          timepicker.cpp
          user_cw.cpp
          user_w.cpp
@@ -128,8 +126,8 @@
      1>qtmaind.lib(qtmain_win.obj) : error LNK2038: 检测到“RuntimeLibrary”的不匹配项: 值“MDd_DynamicDebug”不匹配值“MD_DynamicRelease”(client.obj 中)
      1>MSVCRT.lib(initializers.obj) : warning LNK4098: 默认库“msvcrtd.lib”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
      1>release\\mainwindow.exe : fatal error LNK1319: 检测到 2 个不匹配项
-     1>已完成生成项目“D:\test\mainwindow2r\mainwindow.vcxproj”(Rebuild 个目标)的操作 - 失败。
+     1>已完成生成项目“D:\test\mainwindow2r\mainwindow2r\mainwindow.vcxproj”(Build 个目标)的操作 - 失败。
 
 生成失败。
 
-已用时间 00:06:03.44
+已用时间 00:04:23.10

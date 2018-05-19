@@ -1,49 +1,11 @@
-﻿生成启动时间为 2018/5/17 22:34:37。
+﻿生成启动时间为 2018/5/18 9:20:55。
      1>项目“D:\test\mainwindow2r\mainwindow2r\mainwindow.vcxproj”在节点 2 上(Build 个目标)。
      1>CustomBuild:
          Generate moc_predefs.h
-       ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I. /Idebug /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include\QtWebEngineWidgets /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include\QtWebChannel /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include\QtANGLE /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include\QtWidgets /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include\QtCore /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include\QtGui /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\include /IC:\Qt\Qt5.9.2\5.9.2\msvc2015_64\lib /I"C:\Program Files\MySQL\MySQL Server 5.7\lib" /IC:\local\boost_1_65_1 /I.\GeneratedFiles /Zi /nologo /W3 /WX- /Od /D _WINDOWS /D UNICODE /D _UNICODE /D WIN32 /D WIN64 /D QT_DEPRECATED_WARNINGS /D QT_WIDGETS_LIB /D QT_GUI_LIB /D QT_CORE_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /wd4577 /wd4467 /errorReport:prompt -Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 user_w.cpp
-         user_w.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"debug\\mainwindow.exe" /NOLOGO libmysql.lib C:\Qt\Qt5.9.2\5.9.2\msvc2015_64\lib\Qt5WebChanneld.lib Qt5WebEngined.lib Qt5WebEngineWidgetsd.lib C:\Qt\Qt5.9.2\5.9.2\msvc2015_64\lib\qtmaind.lib shell32.lib C:\Qt\Qt5.9.2\5.9.2\msvc2015_64\lib\Qt5Widgetsd.lib C:\Qt\Qt5.9.2\5.9.2\msvc2015_64\lib\Qt5Guid.lib C:\Qt\Qt5.9.2\5.9.2\msvc2015_64\lib\Qt5Cored.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"debug\mainwindow.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X64 "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" x64\Debug\client.obj
-         x64\Debug\con2thread.obj
-         x64\Debug\correction.obj
-         x64\Debug\moc_client.obj
-         x64\Debug\moc_con2thread.obj
-         x64\Debug\moc_correction.obj
-         x64\Debug\moc_InteractObject.obj
-         x64\Debug\moc_mainwindow.obj
-         x64\Debug\moc_mysql_con.obj
-         x64\Debug\moc_mysql_pannel.obj
-         x64\Debug\moc_network_pannel.obj
-         x64\Debug\moc_picshow.obj
-         x64\Debug\moc_result_window.obj
-         x64\Debug\moc_search_w.obj
-         x64\Debug\moc_search_wizard.obj
-         x64\Debug\moc_settings.obj
-         x64\Debug\moc_status_w.obj
-         x64\Debug\moc_timepicker.obj
-         x64\Debug\moc_user_cw.obj
-         x64\Debug\moc_user_w.obj
-         x64\Debug\InteractObject.obj
-         x64\Debug\main.obj
-         x64\Debug\mainwindow.obj
-         x64\Debug\mysql_con.obj
-         x64\Debug\mysql_pannel.obj
-         x64\Debug\network_pannel.obj
-         x64\Debug\picshow.obj
-         x64\Debug\result_window.obj
-         x64\Debug\search_w.obj
-         x64\Debug\search_wizard.obj
-         x64\Debug\settings.obj
-         x64\Debug\status_w.obj
-         x64\Debug\timepicker.obj
-         x64\Debug\user_cw.obj
-         x64\Debug\user_w.obj
          mainwindow.vcxproj -> D:\test\mainwindow2r\mainwindow2r\debug\mainwindow.exe
      1>已完成生成项目“D:\test\mainwindow2r\mainwindow2r\mainwindow.vcxproj”(Build 个目标)的操作。
 
 已成功生成。
 
-已用时间 00:00:08.56
+已用时间 00:00:01.70
